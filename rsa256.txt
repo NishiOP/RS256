@@ -1,0 +1,30 @@
+echo "$private_key" | sed -e 's/^[ ]*//' | openssl rsa -text
+
+-----BEGIN RSA PRIVATE KEY-----
+abc...
+-----END RSA PRIVATE KEY-----
+
+
+#Extracting public key from private key
+echo "$private_key" | sed -e 's/^[ ]*//' | openssl rsa -pubout
+
+-----BEGIN PUBLIC KEY-----
+xyz..
+-----END PUBLIC KEY-----
+
+key = "\n".join([l.lstrip() for l in input_key.split("\n")])
+payload = {"iss": "abc",
+         "exp": 1234,
+	 "iat": 5678}
+
+
+#Create a token in RS256 algorithm
+import jwt
+token = jwt.encode(payload,key,algorithm='RS256')
+return token
+
+#Verify the signature
+key = "\n".join([l.lstrip() for l in input_key.split("\n")])
+
+import jwt
+return jwt.decode(token, key, algorithms=['RS256'])
