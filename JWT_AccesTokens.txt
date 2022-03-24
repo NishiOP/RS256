@@ -28,3 +28,20 @@ key = "\n".join([l.lstrip() for l in input_key.split("\n")])
 
 import jwt
 return jwt.decode(token, key, algorithms=['RS256'])
+
+#Create Access Tokens
+#Before anything just pip install requests
+
+import requests
+
+
+def get_access_token(url, client_id, client_secret):
+    response = requests.post(
+        url,
+        data={"grant_type": "client_credentials"},
+        auth=(client_id, client_secret),
+    )
+    return response.json()["access_token"]
+
+
+get_access_token("https://api.example.com/access_token", "abcde", "12345")
